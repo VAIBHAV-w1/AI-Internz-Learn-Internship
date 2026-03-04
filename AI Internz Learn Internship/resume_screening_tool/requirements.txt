@@ -1,0 +1,7 @@
+flask
+nltk
+spacy
+scikit-learn
+bert-extractive-summarizer
+pdfminer.six
+python-docx

@@ -1,0 +1,160 @@
+MAKE BURGER BILLIGN SYSTEM USING PYTHON
+
+
+Make python code for making billing system related to Burger .
+
+let say this is your manu 
+
+sr.  name 		 price 
+1.  aloo tikki		 5$
+2.  maharaja		 10$
+3.  mac special		 15$
+
+like wise ....
+
+
+so when your program start this manu should be shown to user 
+now let say use selected  aloo tikki .
+after that you need to ask certain question before making certail bill 
+Q1. how many quantity ?
+Q2. are you a student ? is yes the give 20% discount else no discount 
+Q3. do you want delivery or not ? if delivery then add 5% as delivery charge else no charge 
+Q4. do you want to give tip? if yes then ask how much ? 2$ , 5 $ or 10$
+
+after getting all of this questions answers then make a final bill 
+and here you need to print bill **
+
+******************final bill***********************
+sr.  name  	price  quantity  total_price
+1.  alootikki 	 5$	 1	    5$
+
+------------------------------------------
+				   5$
+student discount 20%		   -1$
+delivery charge 5% 		   +0.2$
+tip 				    2$
+---------------------------------------
+total bill  			  6.2$
+
+thank you and come again >>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Extra functionality ----------------------------------------
+if you want to make it more rebust then make functionality that 
+user can order more that one time at a time  ( EXTRA )
+
+
+
+
+
+
+
+VAIBHAV S WANDKAR
+
+PROGRAM:
+
+# Define the menu
+menu = {
+    1: {"name": "Aloo Tikki", "price": 5},
+    2: {"name": "Maharaja", "price": 10},
+    3: {"name": "Mac Special", "price": 15}
+}
+
+def display_menu():
+    print("****** Welcome to Burger Billing System ******")
+    print("Here's our menu:")
+    for sr, item in menu.items():
+        print(f"{sr}. {item['name']} - ${item['price']}")
+
+def calculate_discount(total_price, is_student):
+    return total_price * 0.20 if is_student else 0
+
+def calculate_delivery_charge(total_price, delivery_required):
+    return total_price * 0.05 if delivery_required else 0
+
+def get_tip_amount():
+    while True:
+        tip_choice = input("Do you want to give a tip? Enter amount (2, 5, or 10) or 0 for no tip: ")
+        if tip_choice in ['2', '5', '10', '0']:
+            return int(tip_choice)
+        else:
+            print("Invalid input. Please enter 2, 5, 10, or 0.")
+
+def generate_bill(orders, is_student, delivery_required, tip):
+    print("\n****************** Final Bill **********************")
+    print(f"{'Sr.':<5} {'Name':<15} {'Price':<8} {'Quantity':<10} {'Total Price':<10}")
+    print("-" * 50)
+    total_price = 0
+
+    for idx, order in enumerate(orders, 1):
+        name = menu[order['id']]['name']
+        price = menu[order['id']]['price']
+        quantity = order['quantity']
+        item_total = price * quantity
+        total_price += item_total
+        print(f"{idx:<5} {name:<15} ${price:<8} {quantity:<10} ${item_total:<10}")
+
+    discount = calculate_discount(total_price, is_student)
+    delivery_charge = calculate_delivery_charge(total_price, delivery_required)
+    total = total_price - discount + delivery_charge + tip
+
+    print("-" * 50)
+    print(f"Subtotal: ${total_price:.2f}")
+    print(f"Student Discount (20%): -${discount:.2f}")
+    print(f"Delivery Charge (5%): +${delivery_charge:.2f}")
+    print(f"Tip: ${tip:.2f}")
+    print(f"Total Bill: ${total:.2f}")
+    print("Thank you and come again!")
+
+def main():
+    display_menu()
+    orders = []
+
+    while True:
+        burger_id = int(input("Enter the number of the burger you'd like to order (1-3): "))
+        if burger_id not in menu:
+            print("Invalid choice. Please select a valid burger.")
+            continue
+        quantity = int(input("Enter the quantity: "))
+        orders.append({"id": burger_id, "quantity": quantity})
+
+        more = input("Would you like to order another burger? (yes/no): ").strip().lower()
+        if more != 'yes':
+            break
+
+    is_student = input("Are you a student? (yes/no): ").strip().lower() == 'yes'
+    delivery_required = input("Do you want delivery? (yes/no): ").strip().lower() == 'yes'
+    tip = get_tip_amount()
+
+    generate_bill(orders, is_student, delivery_required, tip)
+
+if __name__ == "__main__":
+    main()
+
+
+OUTPUT:
+
+****** Welcome to Burger Billing System ******
+Here's our menu:
+1. Aloo Tikki - $5
+2. Maharaja - $10
+3. Mac Special - $15
+Enter the number of the burger you'd like to order (1-3): 1
+Enter the quantity: 2
+Would you like to order another burger? (yes/no): no
+Are you a student? (yes/no): yes
+Do you want delivery? (yes/no): no
+Do you want to give a tip? Enter amount (2, 5, or 10) or 0 for no tip: 10
+
+****************** Final Bill **********************
+Sr.   Name            Price    Quantity   Total Price
+--------------------------------------------------
+1     Aloo Tikki      $5        2          $10        
+--------------------------------------------------
+Subtotal: $10.00
+Student Discount (20%): -$2.00
+Delivery Charge (5%): +$0.00
+Tip: $10.00
+Total Bill: $18.00
+Thank you and come again!
+
+=== Code Execution Successful ===
